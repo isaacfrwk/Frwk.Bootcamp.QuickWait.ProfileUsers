@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CAED1720-682E-41CC-B7BA-A9DB847BAE70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frwk.Bootcamp.QuickWait.ProfileUsers.Api", "src\Frwk.Bootcamp.QuickWait.ProfileUsers.Api\Frwk.Bootcamp.QuickWait.ProfileUsers.Api.csproj", "{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frwk.Bootcamp.QuickWait.ProfileUsers.Application", "src\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj", "{0D02FCFE-4326-4EF3-83CE-28947C8412C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frwk.Bootcamp.QuickWait.ProfileUsers.Domain", "src\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj", "{229A9447-4671-4DFD-859D-CC5E9B62A746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure", "src\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.csproj", "{F49A361E-1634-4D59-83C6-F354C080D643}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D02FCFE-4326-4EF3-83CE-28947C8412C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D02FCFE-4326-4EF3-83CE-28947C8412C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D02FCFE-4326-4EF3-83CE-28947C8412C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D02FCFE-4326-4EF3-83CE-28947C8412C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229A9447-4671-4DFD-859D-CC5E9B62A746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229A9447-4671-4DFD-859D-CC5E9B62A746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229A9447-4671-4DFD-859D-CC5E9B62A746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229A9447-4671-4DFD-859D-CC5E9B62A746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49A361E-1634-4D59-83C6-F354C080D643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49A361E-1634-4D59-83C6-F354C080D643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49A361E-1634-4D59-83C6-F354C080D643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49A361E-1634-4D59-83C6-F354C080D643}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3893C5E-1D64-49FF-A0FF-64DB7C17DD14} = {CAED1720-682E-41CC-B7BA-A9DB847BAE70}
+		{0D02FCFE-4326-4EF3-83CE-28947C8412C4} = {CAED1720-682E-41CC-B7BA-A9DB847BAE70}
+		{229A9447-4671-4DFD-859D-CC5E9B62A746} = {CAED1720-682E-41CC-B7BA-A9DB847BAE70}
+		{F49A361E-1634-4D59-83C6-F354C080D643} = {CAED1720-682E-41CC-B7BA-A9DB847BAE70}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {930360E4-30C2-4A51-BE7C-8A344B1DAD14}
+	EndGlobalSection
+EndGlobal
