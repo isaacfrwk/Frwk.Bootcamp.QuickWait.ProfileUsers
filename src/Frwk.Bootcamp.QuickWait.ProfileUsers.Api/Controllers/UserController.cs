@@ -33,14 +33,14 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Put([FromBody] User user)
         {
             await _service.UpdateAsync(user);
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] User user)
         {
             await _service.DeleteAsync(user);
