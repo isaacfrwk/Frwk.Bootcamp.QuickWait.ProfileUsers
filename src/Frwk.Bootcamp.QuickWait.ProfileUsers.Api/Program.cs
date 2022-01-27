@@ -2,12 +2,14 @@ using Frwk.Bootcamp.QuickWait.ProfileUsers.Application;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddServicesProfileUsers();
 builder.Services.AddRepositoriesProfileUsers();
