@@ -1,7 +1,7 @@
 ﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Contracts
+namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces
 {
     public interface IUserService
     {

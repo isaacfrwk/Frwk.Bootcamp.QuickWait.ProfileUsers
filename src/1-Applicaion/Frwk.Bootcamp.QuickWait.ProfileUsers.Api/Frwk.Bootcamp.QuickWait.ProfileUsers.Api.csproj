@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
+    <DockerfileContext>..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,8 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
-    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\2-Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
+    <ProjectReference Include="..\..\3-Services\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
+    <ProjectReference Include="..\..\4-Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

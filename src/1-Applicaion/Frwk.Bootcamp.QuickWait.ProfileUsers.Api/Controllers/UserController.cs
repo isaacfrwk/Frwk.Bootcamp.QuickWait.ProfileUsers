@@ -1,5 +1,5 @@
-﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Contracts;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
+﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Api.Controllers
