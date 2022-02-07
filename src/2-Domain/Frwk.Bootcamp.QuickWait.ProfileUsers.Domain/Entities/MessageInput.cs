@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities
+﻿namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities
 {
     public class MessageInput
     {
-        public string Queue { get; set; }
+        public int? Status { get; set; }
         public string Method { get; set; }
         public string Content { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public MessageInput(string queue, string method, string content)
+        public MessageInput(int? status, string method, string content)
         {
-            Queue = queue;
+            Status = status;
             Method = method;
             Content = content;
         }

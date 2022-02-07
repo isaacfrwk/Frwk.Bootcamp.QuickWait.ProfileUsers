@@ -13,5 +13,8 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants
         public const string PUT = "PUT";
         public const string DELETE = "DELETE";
         public const string DELETEMANY = "DELETEMANY";
+        public const string FINDALL = "FINDALL";
+        public const string GETBYID = "GETBYID";
+        public const string FIND = "FIND";
     }
 }
