@@ -13,13 +13,15 @@ builder.Services.AddControllers()
 
 builder.Services.AddServicesProfileUsers();
 builder.Services.AddRepositoriesProfileUsers();
+builder.Services.AddHostedService();
+
 
 builder.Services.AddDbContext<DBContext>(options =>
-                options.UseSqlServer($"Data Source=host.docker.internal, 1433;" +
-                $"Initial Catalog=DbProfileUser;" +
-                $"Persist Security Info=True;" +
-                $"User ID=sa;" +
-                $"Password=Pr0f!leUs3r"));
+                options.UseSqlServer(@"Data Source=frwkquickwait.database.windows.net;" +
+                                     $"Initial Catalog=DbUser;" +
+                                     $"Persist Security Info=True;" +
+                                     $"User ID=frwkcosmos;" +
+                                     $"Password=Fr@m3w0rk"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
