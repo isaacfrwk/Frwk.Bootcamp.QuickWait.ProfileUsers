@@ -18,5 +18,6 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context
             builder.ApplyConfiguration(new UserMap());
             builder.ApplyConfiguration(new AddressMap());
         }
+
     }
 }

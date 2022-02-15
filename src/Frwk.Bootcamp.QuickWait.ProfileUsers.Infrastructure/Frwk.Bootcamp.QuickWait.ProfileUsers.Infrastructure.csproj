@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\2-Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
-    <ProjectReference Include="..\..\3-Services\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
   </ItemGroup>
 
 </Project>

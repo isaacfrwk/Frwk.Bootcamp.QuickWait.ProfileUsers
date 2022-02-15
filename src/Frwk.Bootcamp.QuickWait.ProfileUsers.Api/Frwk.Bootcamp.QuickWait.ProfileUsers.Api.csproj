@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
@@ -22,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\2-Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
-    <ProjectReference Include="..\..\3-Services\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
-    <ProjectReference Include="..\..\4-Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Application\Frwk.Bootcamp.QuickWait.ProfileUsers.Application.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure\Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

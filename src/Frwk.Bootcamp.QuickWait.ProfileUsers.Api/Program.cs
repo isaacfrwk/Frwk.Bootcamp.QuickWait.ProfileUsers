@@ -1,6 +1,7 @@
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Application;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -14,14 +15,11 @@ builder.Services.AddControllers()
 builder.Services.AddServicesProfileUsers();
 builder.Services.AddRepositoriesProfileUsers();
 builder.Services.AddHostedService();
-
+builder.Services.AddHealthChecks()
+                .AddSqlServer(connectionString: builder.Configuration.GetConnectionString("ConnectionString"), name: "Instancia do sql server");
 
 builder.Services.AddDbContext<DBContext>(options =>
-                options.UseSqlServer(@"Data Source=frwkquickwait.database.windows.net;" +
-                                     $"Initial Catalog=DbUser;" +
-                                     $"Persist Security Info=True;" +
-                                     $"User ID=frwkcosmos;" +
-                                     $"Password=Fr@m3w0rk"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,6 +35,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    Predicate = p => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.MapControllers();
 

@@ -20,12 +20,13 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
 
             this.consumerConfig = new ConsumerConfig
             {
-                BootstrapServers = CloudKarafka.Brokers,
-                SaslUsername = CloudKarafka.Username,
-                SaslPassword = CloudKarafka.Password,
-                SaslMechanism = SaslMechanism.ScramSha256,
-                SecurityProtocol = SecurityProtocol.SaslSsl,
-                EnableSslCertificateVerification = false,
+                //BootstrapServers = CloudKarafka.Brokers,
+                //SaslUsername = CloudKarafka.Username,
+                //SaslPassword = CloudKarafka.Password,
+                //SaslMechanism = SaslMechanism.ScramSha256,
+                //SecurityProtocol = SecurityProtocol.SaslSsl,
+                //EnableSslCertificateVerification = false,
+                BootstrapServers = Settings.Kafkahost,
                 GroupId = $"{topicName}-group-3",
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
@@ -40,7 +41,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
         private void ProcessQueue(CancellationToken stoppingToken)
         {
             using var consumer = new ConsumerBuilder<Ignore, string>(consumerConfig).Build();
-            consumer.Subscribe($"{CloudKarafka.Prefix + topicName}");
+            consumer.Subscribe(topicName);
 
             try
             {
