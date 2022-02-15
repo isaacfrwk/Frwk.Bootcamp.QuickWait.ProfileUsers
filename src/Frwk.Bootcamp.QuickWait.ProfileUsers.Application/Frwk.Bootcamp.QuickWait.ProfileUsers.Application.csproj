@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\2-Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
+    <ProjectReference Include="..\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain\Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.csproj" />
   </ItemGroup>
 
 </Project>

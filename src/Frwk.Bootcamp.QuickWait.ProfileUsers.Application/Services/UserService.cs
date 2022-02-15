@@ -3,6 +3,7 @@ using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 
@@ -13,23 +14,14 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         private readonly IUserRepository userRepository;
         private readonly string topicNameUser;
         private readonly string topicNameUserResponse;
-        private readonly ClientConfig cloudConfig;
-
-        public UserService(IUserRepository userRepository)
+        private readonly IProduceService produceService;
+        public UserService(IUserRepository userRepository, IProduceService produceService)
         {
             this.userRepository = userRepository;
             this.topicNameUser = Topics.topicNameUser;
             this.topicNameUserResponse = Topics.topicNameUserResponse;
+            this.produceService = produceService;
 
-            cloudConfig = new ClientConfig
-            {
-                BootstrapServers = CloudKarafka.Brokers,
-                SaslUsername = CloudKarafka.Username,
-                SaslPassword = CloudKarafka.Password,
-                SaslMechanism = SaslMechanism.ScramSha256,
-                SecurityProtocol = SecurityProtocol.SaslSsl,
-                EnableSslCertificateVerification = false
-            };
         }
 
         public async Task AddAsync(User entity)
@@ -41,12 +33,13 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                await produceService.Call(new MessageInput(400, MethodConstant.POST, "erro ao tentar salvar o usuário"), topicNameUserResponse);
             }
             
             var message = new MessageInput(null, MethodConstant.POST, JsonConvert.SerializeObject(entity));
 
-            await this.Call(message, topicNameUser);
+            await produceService.Call(message, topicNameUser);
+
         }
 
         public async Task DeleteAsync(User entity)
@@ -56,7 +49,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
 
             var message = new MessageInput(null, MethodConstant.DELETE, JsonConvert.SerializeObject(entity));
 
-            await this.Call(message, topicNameUser);
+            await produceService.Call(message, topicNameUser);
         }
 
         public async Task DeleteManyAsync(IEnumerable<User> entities)
@@ -66,20 +59,21 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
 
             var message = new MessageInput(null, MethodConstant.DELETEMANY, JsonConvert.SerializeObject(entities));
 
-            await this.Call(message, topicNameUser);
+            await produceService.Call(message, topicNameUser);
 
         }
 
         public async Task<IEnumerable<User>> FindAllAsync(bool asNoTracking = true)
         {
             var users = await userRepository.FindAllAsync(asNoTracking);
-            MessageInput? message = null;
+            MessageInput? message;
 
             if (users != null)
                 message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            else
+                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
-            await this.Call(message, topicNameUserResponse);
+            await produceService.Call(message, topicNameUserResponse);
 
             return users;
         }
@@ -88,13 +82,14 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         {
             var users = await userRepository.FindAsync(predicate, asNoTracking);
 
-            MessageInput? message = null;
+            MessageInput? message;
 
             if (users != null)
                 message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            else
+                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
-            await this.Call(message, topicNameUserResponse);
+            await produceService.Call(message, topicNameUserResponse);
 
             return users;
         }
@@ -103,13 +98,14 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         {
             var users = await userRepository.GetByIdAsync(id);
 
-            MessageInput? message = null;
+            MessageInput? message;
 
             if (users != null)
                 message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            else
+                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
-            await this.Call(message, topicNameUserResponse);
+            await produceService.Call(message, topicNameUserResponse);
 
             return users;
         }
@@ -121,21 +117,8 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
 
             var message = new MessageInput(null, MethodConstant.PUT, JsonConvert.SerializeObject(entity));
 
-            await this.Call(message, topicNameUser);
+            await produceService.Call(message, topicNameUser);
         }
 
-
-        protected async Task Call(MessageInput message, string topicName)
-        {
-            var stringfiedMessage = JsonConvert.SerializeObject(message);
-
-            using var producer = new ProducerBuilder<string, string>(cloudConfig).Build();
-
-            var key = new Guid().ToString();
-
-            await producer.ProduceAsync($"{CloudKarafka.Prefix + topicName}", new Message<string, string> { Key = key, Value = stringfiedMessage });
-
-            producer.Flush(TimeSpan.FromSeconds(2));
-        }
     }
 }

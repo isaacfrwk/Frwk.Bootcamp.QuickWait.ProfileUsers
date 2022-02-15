@@ -2,6 +2,7 @@
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext
@@ -81,6 +82,15 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext
                 _dBContext.Entry(item).CurrentValues.SetValues(entity);
                 item.Address = entity.Address;
             }
+        }
+
+        public async Task<User> SaveLast() 
+        {
+            var item = await _dBContext.Users
+                .Include(x => x.Address).AsNoTracking()
+                .OrderByDescending(x => x.Id).LastAsync();
+
+            return item;
         }
     }
 }

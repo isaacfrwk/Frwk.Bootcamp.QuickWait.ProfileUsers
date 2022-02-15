@@ -13,5 +13,6 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts
         Task<User> GetByIdAsync(Guid id);
         Task<int> SaveChangesAsync();
         Task UpdateAsync(User entity);
+        Task<User> SaveLast();
     }
 }

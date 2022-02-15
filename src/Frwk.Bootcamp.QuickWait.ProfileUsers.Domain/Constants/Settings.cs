@@ -9,6 +9,6 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants
     public static class Settings
     {
         public const string User = "USER";
-        public const string Kafka = "localhost:9092";
+        public const string Kafkahost = "kafka:29092";
     }
 }
