@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext
+namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Data.Mapping
 {
     public class UserMap : IEntityTypeConfiguration<User>
     {

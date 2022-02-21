@@ -1,5 +1,7 @@
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context;
+using FluentValidation.AspNetCore;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Data.Context;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.IOC;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers()
         .AddNewtonsoftJson(options =>
-                           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+        .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<UserValidator>());
+        
 
 builder.Services.AddServicesProfileUsers();
 builder.Services.AddRepositoriesProfileUsers();
 builder.Services.AddHostedService();
+builder.Services.AddDatabaseContext(builder.Configuration);
+
 builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString: builder.Configuration.GetConnectionString("ConnectionString"), name: "Instancia do sql server");
-
-builder.Services.AddDbContext<DBContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -43,5 +46,7 @@ app.UseHealthChecks("/health", new HealthCheckOptions
 });
 
 app.MapControllers();
+
+await app.UseDatabaseConfiguration();
 
 app.Run();

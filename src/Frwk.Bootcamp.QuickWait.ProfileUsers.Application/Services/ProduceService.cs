@@ -2,6 +2,7 @@
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
@@ -9,12 +10,14 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
     public class ProduceService : IProduceService
     {
         private readonly ClientConfig cloudConfig;
-        public ProduceService()
+        private readonly IConfiguration _configuration;
+        public ProduceService(IConfiguration configuration)
         {
+            _configuration = configuration;
+
             cloudConfig = new ClientConfig
             {
-                BootstrapServers = Settings.Kafkahost
-                //BootstrapServers = CloudKarafka.Brokers,
+                BootstrapServers = _configuration.GetSection("Kafka")["Host"]
                 //SaslUsername = CloudKarafka.Username,
                 //SaslPassword = CloudKarafka.Password,
                 //SaslMechanism = SaslMechanism.ScramSha256,

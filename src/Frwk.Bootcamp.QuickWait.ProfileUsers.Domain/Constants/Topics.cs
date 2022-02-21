@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants
+﻿namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants
 {
     public static class Topics
     {

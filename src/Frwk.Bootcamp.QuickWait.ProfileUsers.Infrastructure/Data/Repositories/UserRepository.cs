@@ -1,8 +1,7 @@
 ﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Context;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext
@@ -84,11 +83,11 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext
             }
         }
 
-        public async Task<User> SaveLast() 
+        public async Task<User> FindByUsername(string username) 
         {
             var item = await _dBContext.Users
-                .Include(x => x.Address).AsNoTracking()
-                .OrderByDescending(x => x.Id).LastAsync();
+                    .Include(x => x.Address)
+                    .FirstOrDefaultAsync(x => x.Username == username);
 
             return item;
         }
