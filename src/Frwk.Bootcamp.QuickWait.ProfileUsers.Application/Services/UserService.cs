@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
@@ -15,63 +16,89 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         private readonly string topicNameUser;
         private readonly string topicNameUserResponse;
         private readonly IProduceService produceService;
-        public UserService(IUserRepository userRepository, IProduceService produceService)
+        private readonly UserValidator validatorValidator;
+        public UserService(IUserRepository userRepository, IProduceService produceService, UserValidator validatorValidator)
         {
             this.userRepository = userRepository;
             this.topicNameUser = Topics.topicNameUser;
             this.topicNameUserResponse = Topics.topicNameUserResponse;
             this.produceService = produceService;
-
+            this.validatorValidator = validatorValidator;
         }
 
         public async Task AddAsync(User entity)
         {
             try
             {
-                await userRepository.AddAsync(entity);
-                await userRepository.SaveChangesAsync();
+                var validator = validatorValidator.Validate(entity);
+
+                if (validator.IsValid)
+                {
+                    await userRepository.AddAsync(entity);
+                    await userRepository.SaveChangesAsync();
+
+                    var message = new MessageInput(null, MethodConstant.POST, JsonConvert.SerializeObject(entity));
+
+                    await produceService.Call(message, topicNameUser);
+
+                    await produceService.Call(new MessageInput(200, MethodConstant.POST, JsonConvert.SerializeObject(entity)), topicNameUserResponse);
+                }
+                else
+                {
+                    await produceService.Call(new MessageInput(400, MethodConstant.POST, JsonConvert.SerializeObject(validator.Errors)), topicNameUserResponse);
+                }
+
             }
             catch (Exception ex)
             {
                 await produceService.Call(new MessageInput(400, MethodConstant.POST, "erro ao tentar salvar o usuário"), topicNameUserResponse);
             }
-            
-            var message = new MessageInput(null, MethodConstant.POST, JsonConvert.SerializeObject(entity));
-
-            await produceService.Call(message, topicNameUser);
-
+           
         }
 
         public async Task DeleteAsync(User entity)
         {
-            userRepository.DeleteSync(entity);
-            await userRepository.SaveChangesAsync();
+            try
+            {
+                userRepository.DeleteSync(entity);
+                await userRepository.SaveChangesAsync();
 
-            var message = new MessageInput(null, MethodConstant.DELETE, JsonConvert.SerializeObject(entity));
+                var message = new MessageInput(null, MethodConstant.DELETE, JsonConvert.SerializeObject(entity));
 
-            await produceService.Call(message, topicNameUser);
+                await produceService.Call(message, topicNameUser);
+            }
+            catch (Exception ex)
+            {
+                await produceService.Call(new MessageInput(400, MethodConstant.DELETE, "erro ao tentar deletar o usuário"), topicNameUserResponse);
+            }
+
         }
 
         public async Task DeleteManyAsync(IEnumerable<User> entities)
         {
-            userRepository.DeleteManySync(entities);
-            await userRepository.SaveChangesAsync();
+            try
+            {
+                userRepository.DeleteManySync(entities);
+                await userRepository.SaveChangesAsync();
 
-            var message = new MessageInput(null, MethodConstant.DELETEMANY, JsonConvert.SerializeObject(entities));
+                var message = new MessageInput(null, MethodConstant.DELETEMANY, JsonConvert.SerializeObject(entities));
 
-            await produceService.Call(message, topicNameUser);
+                await produceService.Call(message, topicNameUser);
+            }
+            catch (Exception ex)
+            {
+                await produceService.Call(new MessageInput(400, MethodConstant.DELETE, "erro ao tentar deletar o usuário"), topicNameUserResponse);
+            }
 
         }
 
         public async Task<IEnumerable<User>> FindAllAsync(bool asNoTracking = true)
         {
             var users = await userRepository.FindAllAsync(asNoTracking);
-            MessageInput? message;
 
-            if (users != null)
-                message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            else
-                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            int status = users != null ? 200: 404;
+
+            var message = new MessageInput(status, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
             await produceService.Call(message, topicNameUserResponse);
 
@@ -82,12 +109,9 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         {
             var users = await userRepository.FindAsync(predicate, asNoTracking);
 
-            MessageInput? message;
+            int status = users != null ? 200 : 404;
 
-            if (users != null)
-                message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            else
-                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            var message = new MessageInput(status, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
             await produceService.Call(message, topicNameUserResponse);
 
@@ -98,12 +122,9 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
         {
             var users = await userRepository.GetByIdAsync(id);
 
-            MessageInput? message;
+            int status = users != null ? 200 : 404;
 
-            if (users != null)
-                message = new MessageInput(200, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
-            else
-                message = new MessageInput(404, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
+            var message = new MessageInput(status, MethodConstant.FINDALL, JsonConvert.SerializeObject(users));
 
             await produceService.Call(message, topicNameUserResponse);
 
@@ -112,12 +133,29 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
 
         public async Task UpdateAsync(User entity)
         {
-            await userRepository.UpdateAsync(entity);
-            await userRepository.SaveChangesAsync();
+            try
+            {
+                var validator = validatorValidator.Validate(entity);
 
-            var message = new MessageInput(null, MethodConstant.PUT, JsonConvert.SerializeObject(entity));
+                if (validator.IsValid)
+                {
+                    await userRepository.UpdateAsync(entity);
+                    await userRepository.SaveChangesAsync();
 
-            await produceService.Call(message, topicNameUser);
+                    var message = new MessageInput(null, MethodConstant.PUT, JsonConvert.SerializeObject(entity));
+
+                    await produceService.Call(message, topicNameUser);
+                }
+                else
+                {
+                    await produceService.Call(new MessageInput(400, MethodConstant.PUT, JsonConvert.SerializeObject(validator.Errors)), topicNameUserResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                await produceService.Call(new MessageInput(400, MethodConstant.PUT, "erro ao tentar atualizar o usuário"), topicNameUserResponse);
+            }
+
         }
 
     }

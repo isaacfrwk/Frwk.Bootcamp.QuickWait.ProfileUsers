@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.AddressContext
+namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Data.Mapping
 {
     public class AddressMap : IEntityTypeConfiguration<Address>
     {

@@ -6,7 +6,7 @@ using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure
+namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.IOC
 {
     public static class Bootstrapper
     {
