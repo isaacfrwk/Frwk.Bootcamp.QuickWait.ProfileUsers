@@ -29,7 +29,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
         {
-            await _service.AddAsync(user);
+            await _service.InsertAsync(user);
             return Ok();
         }
 

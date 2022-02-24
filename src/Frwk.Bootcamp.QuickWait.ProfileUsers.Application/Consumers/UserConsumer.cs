@@ -75,7 +75,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
             switch (mensagem.Method)
             {
                 case MethodConstant.POST:
-                    await service.AddAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));
+                    await service.InsertAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));
                     break;
                 case MethodConstant.PUT:
                     await service.UpdateAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));

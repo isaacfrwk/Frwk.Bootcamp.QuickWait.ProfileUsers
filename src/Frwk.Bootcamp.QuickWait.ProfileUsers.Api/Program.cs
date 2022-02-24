@@ -20,9 +20,7 @@ builder.Services.AddServicesProfileUsers();
 builder.Services.AddRepositoriesProfileUsers();
 builder.Services.AddHostedService();
 builder.Services.AddDatabaseContext(builder.Configuration);
-
-builder.Services.AddHealthChecks()
-                .AddSqlServer(connectionString: builder.Configuration.GetConnectionString("ConnectionString"), name: "Instancia do sql server");
+builder.Services.AddHealthCheckConfguration(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -39,7 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
-app.UseHealthChecks("/health", new HealthCheckOptions
+app.UseHealthChecks("/api/health", new HealthCheckOptions
 {
     Predicate = p => true,
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse

@@ -4,6 +4,7 @@ using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.IOC
@@ -25,6 +26,10 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.IOC
         public static IServiceCollection AddHostedService(this IServiceCollection services)
             => services
                 .AddHostedService<UserConsumer>();
+
+        public static void AddHealthCheckConfguration(this IServiceCollection services, IConfiguration configuration)
+            => services.AddHealthChecks()
+                       .AddSqlServer(connectionString: configuration.GetConnectionString("ConnectionString"), name: "Instancia do sql server");
 
     }                                                   
 }
