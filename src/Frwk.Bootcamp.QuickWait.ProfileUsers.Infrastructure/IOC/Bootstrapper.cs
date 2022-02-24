@@ -1,8 +1,7 @@
 ﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Interfaces;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.UserContext;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

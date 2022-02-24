@@ -1,7 +1,6 @@
 ﻿using Confluent.Kafka;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 

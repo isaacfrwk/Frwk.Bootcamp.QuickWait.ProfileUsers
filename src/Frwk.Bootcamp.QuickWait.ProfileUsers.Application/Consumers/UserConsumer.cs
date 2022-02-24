@@ -23,11 +23,6 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
 
             this.consumerConfig = new ConsumerConfig
             {
-                //SaslUsername = CloudKarafka.Username,
-                //SaslPassword = CloudKarafka.Password,
-                //SaslMechanism = SaslMechanism.ScramSha256,
-                //SecurityProtocol = SecurityProtocol.SaslSsl,
-                //EnableSslCertificateVerification = false,
                 BootstrapServers = _configuration.GetSection("Kafka")["Host"],
                 GroupId = $"{topicName}-group-3",
                 AutoOffsetReset = AutoOffsetReset.Earliest

@@ -1,11 +1,9 @@
-﻿using Confluent.Kafka;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Helpers;
+﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Helpers;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Interfaces;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 
