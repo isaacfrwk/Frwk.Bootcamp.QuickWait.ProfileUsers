@@ -23,11 +23,6 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
 
             this.consumerConfig = new ConsumerConfig
             {
-                //SaslUsername = CloudKarafka.Username,
-                //SaslPassword = CloudKarafka.Password,
-                //SaslMechanism = SaslMechanism.ScramSha256,
-                //SecurityProtocol = SecurityProtocol.SaslSsl,
-                //EnableSslCertificateVerification = false,
                 BootstrapServers = _configuration.GetSection("Kafka")["Host"],
                 GroupId = $"{topicName}-group-3",
                 AutoOffsetReset = AutoOffsetReset.Earliest
@@ -75,7 +70,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Consumers
             switch (mensagem.Method)
             {
                 case MethodConstant.POST:
-                    await service.AddAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));
+                    await service.InsertAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));
                     break;
                 case MethodConstant.PUT:
                     await service.UpdateAsync(JsonConvert.DeserializeObject<User>(mensagem.Content));

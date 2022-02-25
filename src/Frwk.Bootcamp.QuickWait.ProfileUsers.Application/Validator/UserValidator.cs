@@ -1,11 +1,6 @@
 ﻿using FluentValidation;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator
 {
@@ -18,9 +13,11 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator
                 .NotNull().WithMessage("Nome não pode ser nulo.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Informe a senha.")
-                .NotNull().WithMessage("Senha não pode ser nulo.")
-                .Must(pass => Regex.IsMatch(pass, @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"));
+                .NotEmpty().WithMessage("Informe a password.")
+                .NotNull().WithMessage("Password não pode ser nulo.")
+                .MinimumLength(8).WithMessage("Password tem que ter no mínimo 8 letras")
+                .Must(pass => Regex.IsMatch(pass, @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"))
+                .WithMessage("Password tem que ser constituido por letras maiusculas, minusculas, números e caracter especial.");
 
             RuleFor(x => x.Email)
                 .EmailAddress().WithMessage("Email inválido.");

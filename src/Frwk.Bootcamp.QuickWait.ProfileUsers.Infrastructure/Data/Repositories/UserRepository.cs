@@ -1,4 +1,4 @@
-﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
+﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Interfaces;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;

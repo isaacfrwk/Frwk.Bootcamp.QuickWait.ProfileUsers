@@ -1,6 +1,6 @@
 ﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 
-namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service
+namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces
 {
     public interface IProduceService
     {

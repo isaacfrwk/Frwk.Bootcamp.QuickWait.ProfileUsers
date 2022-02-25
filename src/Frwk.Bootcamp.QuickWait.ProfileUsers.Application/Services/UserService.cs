@@ -1,10 +1,9 @@
-﻿using Confluent.Kafka;
+﻿using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Helpers;
+using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Interfaces;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Validator;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Constants;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Contracts;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Entities;
 using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces;
-using Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces.Service;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 
@@ -26,32 +25,39 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Application.Services
             this.validatorValidator = validatorValidator;
         }
 
-        public async Task AddAsync(User entity)
+        public async Task InsertAsync(User entity)
         {
             try
             {
                 var validator = validatorValidator.Validate(entity);
+
+                entity.Password = UserHelper.GenerateHashMd5(entity.Password);
 
                 if (validator.IsValid)
                 {
                     await userRepository.AddAsync(entity);
                     await userRepository.SaveChangesAsync();
 
-                    var message = new MessageInput(null, MethodConstant.POST, JsonConvert.SerializeObject(entity));
-
-                    await produceService.Call(message, topicNameUser);
-
+                    //Chamando o producer do microsserviço auth.
+                    await produceService.Call(new MessageInput(null, MethodConstant.POST, JsonConvert.SerializeObject(entity)), topicNameUser);
+                    //resposta do microsserviço.
                     await produceService.Call(new MessageInput(200, MethodConstant.POST, JsonConvert.SerializeObject(entity)), topicNameUserResponse);
                 }
                 else
                 {
-                    await produceService.Call(new MessageInput(400, MethodConstant.POST, JsonConvert.SerializeObject(validator.Errors)), topicNameUserResponse);
+                    List<string> listErro = new();
+
+                    foreach(var error in validator.Errors)
+                    {
+                        listErro.Add(error.ErrorMessage);
+                    }
+                    await produceService.Call(new MessageInput(400, MethodConstant.POST, JsonConvert.SerializeObject(listErro)), topicNameUserResponse);
                 }
 
             }
             catch (Exception ex)
             {
-                await produceService.Call(new MessageInput(400, MethodConstant.POST, "erro ao tentar salvar o usuário"), topicNameUserResponse);
+                await produceService.Call(new MessageInput(400, MethodConstant.POST, "Ocorreu um erro ao tentar salvar o usuário."), topicNameUserResponse);
             }
            
         }

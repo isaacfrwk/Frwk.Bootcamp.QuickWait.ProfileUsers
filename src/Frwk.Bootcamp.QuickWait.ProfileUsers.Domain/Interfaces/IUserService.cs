@@ -5,7 +5,7 @@ namespace Frwk.Bootcamp.QuickWait.ProfileUsers.Domain.Interfaces
 {
     public interface IUserService
     {
-        Task AddAsync(User entity);
+        Task InsertAsync(User entity);
 
         Task DeleteAsync(User entity);
 
